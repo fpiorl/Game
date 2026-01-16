@@ -1,12 +1,6 @@
 package org.example.gioco;
 
 public class GiocoVideo extends Gioco {
-	public enum Piattaforma {
-		PC,
-		PS5,
-		XBOX
-	}
-
 	public enum Genere {
 		AZIONE,
 		AVVENTURA,
@@ -15,7 +9,7 @@ public class GiocoVideo extends Gioco {
 		SPORT
 	}
 
-	private Piattaforma Piattaforma;
+	private String Piattaforma;
 	private int Durata;
 	private Genere Genere;
 
@@ -23,7 +17,7 @@ public class GiocoVideo extends Gioco {
 			String Titolo,
 			int Anno,
 			double Prezzo,
-			Piattaforma Piattaforma,
+			String Piattaforma,
 			int Durata,
 			Genere Genere
 			) {
@@ -33,11 +27,11 @@ public class GiocoVideo extends Gioco {
 		setGenere(Genere);
 			}
 
-	public void setPiattaforma(Piattaforma Piattaforma) {
-		if (Piattaforma == null) {
+	public void setPiattaforma(String Piattaforma) {
+		if (Piattaforma == null || Piattaforma.isBlank()) {
 			throw new IllegalArgumentException("piattaforma non valida");
 		}
-		this.Piattaforma = Piattaforma;
+		this.Piattaforma = Piattaforma.trim();
 	}
 
 	public void setDurata(int Durata) {
@@ -54,7 +48,7 @@ public class GiocoVideo extends Gioco {
 		this.Genere = Genere;
 	}
 
-	public Piattaforma getPiattaforma() {
+	public String getPiattaforma() {
 		return Piattaforma;
 	}
 
