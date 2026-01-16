@@ -33,11 +33,10 @@ public class Collezione {
 	public Gioco cercaId(int id) {
 		Gioco trovato = giochi.stream()
 				.filter(g -> g.getID() == id)
-				.reduce(null, (acc, g) -> g);
-
-		if (trovato == null) {
-			throw new IDNonTrovatoException(id);
-		}
+				.findFirst()
+				.orElseThrow(() ->
+					throw new IDNonTrovatoException(id)
+				);
 
 		return trovato;
 	}
