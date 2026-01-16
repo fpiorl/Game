@@ -30,15 +30,43 @@ public class Collezione {
 		giochi.add(gioco);
 	}
 
+	public void aggiornaGioco(int id, Gioco nuovoGioco) {
+		if (nuovoGioco == null) {
+			throw new GiocoNonValidoException();
+		}
+
+		String titolo = nuovoGioco.getTitolo();
+		if (titolo == null || titolo.isBlank()) {
+			throw new TitoloNonValidoException();
+		}
+
+		int index = java.util.stream.IntStream.range(0, giochi.size())
+				.filter(i -> giochi.get(i).getID() == id)
+				.findFirst()
+				.orElseThrow(() -> new IDNonTrovatoException(id));
+
+		boolean idPresente = giochi.stream()
+				.anyMatch(g -> g.getID() == nuovoGioco.getID() && g.getID() != id);
+		if (idPresente) {
+			throw new IdGiaPresenteException(nuovoGioco.getID());
+		}
+
+		boolean titoloPresente = giochi.stream()
+				.anyMatch(g -> g.getID() != id
+						&& g.getTitolo() != null
+						&& g.getTitolo().equalsIgnoreCase(titolo));
+		if (titoloPresente) {
+			throw new TitoloGiaPresenteException(titolo);
+		}
+
+		giochi.set(index, nuovoGioco);
+	}
+
 	public Gioco cercaId(int id) {
-		Gioco trovato = giochi.stream()
+		return giochi.stream()
 				.filter(g -> g.getID() == id)
 				.findFirst()
-				.orElseThrow(() ->
-					throw new IDNonTrovatoException(id)
-				);
-
-		return trovato;
+				.orElseThrow(() -> new IDNonTrovatoException(id));
 	}
 
 	public List<Gioco> cercaPrezzo(double prezzoMax) {

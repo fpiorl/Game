@@ -31,6 +31,7 @@ public class Application {
                         case 5 -> collezione.statistiche();
                         case 6 -> listaTutti(collezione);
                         case 7 -> cercaPerNumeroGiocatori(scanner, collezione);
+                        case 8 -> aggiornaGioco(scanner, collezione);
                         default -> System.out.println("Scelta non valida.");
                     }
                 } catch (RuntimeException ex) {
@@ -52,22 +53,33 @@ public class Application {
         System.out.println("5) Statistiche");
         System.out.println("6) Lista tutti i giochi");
         System.out.println("7) Cerca giochi tavolo per numero giocatori");
+        System.out.println("8) Aggiorna gioco per ID");
     }
 
     private static void aggiungiGioco(Scanner scanner, Collezione collezione) {
+        Gioco gioco = nextGioco(scanner);
+        collezione.aggiungi(gioco);
+        System.out.println("Gioco aggiunto. ID assegnato: " + gioco.getID());
+    }
+
+    private static void aggiornaGioco(Scanner scanner, Collezione collezione) {
+        int id = leggiIntero(scanner, "ID da aggiornare: ");
+        Gioco nuovoGioco = nextGioco(scanner);
+        collezione.aggiornaGioco(id, nuovoGioco);
+        System.out.println("Gioco aggiornato. Nuovo ID assegnato: " + nuovoGioco.getID());
+    }
+
+    private static Gioco nextGioco(Scanner scanner) {
         System.out.println("Tipo di gioco:");
         System.out.println("1) Videogioco");
         System.out.println("2) Gioco da tavolo");
         int tipo = leggiIntero(scanner, "Scelta tipo: ");
 
-        Gioco gioco = switch (tipo) {
+        return switch (tipo) {
             case 1 -> leggiGiocoVideo(scanner);
             case 2 -> leggiGiocoTavolo(scanner);
             default -> throw new IllegalArgumentException("tipo non valido");
         };
-
-        collezione.aggiungi(gioco);
-        System.out.println("Gioco aggiunto. ID assegnato: " + gioco.getID());
     }
 
     private static GiocoVideo leggiGiocoVideo(Scanner scanner) {
