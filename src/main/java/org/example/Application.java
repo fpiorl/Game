@@ -30,6 +30,7 @@ public class Application {
                         case 4 -> rimuoviPerId(scanner, collezione);
                         case 5 -> collezione.statistiche();
                         case 6 -> listaTutti(collezione);
+                        case 7 -> cercaPerNumeroGiocatori(scanner, collezione);
                         default -> System.out.println("Scelta non valida.");
                     }
                 } catch (RuntimeException ex) {
@@ -50,6 +51,7 @@ public class Application {
         System.out.println("4) Rimuovi gioco per ID");
         System.out.println("5) Statistiche");
         System.out.println("6) Lista tutti i giochi");
+        System.out.println("7) Cerca giochi tavolo per numero giocatori");
     }
 
     private static void aggiungiGioco(Scanner scanner, Collezione collezione) {
@@ -105,6 +107,20 @@ public class Application {
         }
 
         risultati.forEach(Application::stampaGioco);
+    }
+
+    private static void cercaPerNumeroGiocatori(Scanner scanner, Collezione collezione) {
+        int numeroGiocatori = leggiIntero(scanner, "Numero giocatori: ");
+        List<GiocoTavolo> risultati = collezione.cercaNumeroGiocatori(numeroGiocatori);
+
+        if (risultati.isEmpty()) {
+            System.out.println("Nessun gioco trovato.");
+            return;
+        }
+
+        for (GiocoTavolo gt : risultati) {
+            stampaGioco(gt);
+        }
     }
 
     private static void rimuoviPerId(Scanner scanner, Collezione collezione) {

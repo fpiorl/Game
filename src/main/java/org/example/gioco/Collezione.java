@@ -48,19 +48,19 @@ public class Collezione {
 				.toList();
 	}
 
+	public List<GiocoTavolo> cercaNumeroGiocatori(int NumeroGiocatori) {
+		return giochi.stream()
+				.filter(g -> g instanceof GiocoTavolo)
+				.map(g -> (GiocoTavolo) g)
+				.filter(gt -> gt.getNumeroGiocatori() == NumeroGiocatori)
+				.toList();
+	}
+
 	public void rimuoviId(int id) {
 		boolean rimosso = giochi.removeIf(g -> g.getID() == id);
 		if (!rimosso) {
 			throw new IDNonTrovatoException(id);
 		}
-	}
-		}
-
-		if (daRimuovere == null) {
-			throw new IDNonTrovatoException(id);
-		}
-
-		giochi.remove(daRimuovere);
 	}
 
 	public void statistiche() {
