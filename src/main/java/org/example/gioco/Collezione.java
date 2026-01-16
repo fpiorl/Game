@@ -54,6 +54,14 @@ public class Collezione {
 			throw new IDNonTrovatoException(id);
 		}
 	}
+		}
+
+		if (daRimuovere == null) {
+			throw new IDNonTrovatoException(id);
+		}
+
+		giochi.remove(daRimuovere);
+	}
 
 	public void statistiche() {
 		if (giochi.isEmpty()) {
